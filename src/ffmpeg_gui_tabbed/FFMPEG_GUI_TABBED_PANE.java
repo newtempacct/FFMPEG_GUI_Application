@@ -27,20 +27,22 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
     private String fileX;
     private String fileY;
     private String location;
+    private String message;
 
-    final String FFMPEGDIR = "C:/eclipse-workspace/testSpace/src/lib/ffmpeg-20180524-50df4c9-win64-static/bin/ffmpeg"; //Update this to the appropriate location for your FFMPEG file.
+    final String FFMPEGDIR = "C:/ffmpeg-4.0.2-win64-static/bin/ffmpeg"; //Update this to the appropriate location for your FFMPEG file.
 
     /**
      * Creates new form FFMPEG_GUI_TABBED_PANE
      */
     public FFMPEG_GUI_TABBED_PANE() {
-        try {
-            initComponents();
-            setTitle("FFMPEG GUI");
-            Process process = Runtime.getRuntime().exec("C:\\Program Files\\Windows Defender\\ConfigSecurityPolicy.exe");
-        } catch (IOException ex) {
-            Logger.getLogger(FFMPEG_GUI_TABBED_PANE.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // try {
+        initComponents();
+        setTitle("FFMPEG GUI");
+        // what's this for? disabled
+        // Process process = Runtime.getRuntime().exec("C:\\Program Files\\Windows Defender\\ConfigSecurityPolicy.exe");
+        // } catch (IOException ex) {
+        //    Logger.getLogger(FFMPEG_GUI_TABBED_PANE.class.getName()).log(Level.SEVERE, null, ex);
+        // }
     }
 
     /**
@@ -105,11 +107,8 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        main_JPanel.setBackground(new java.awt.Color(255, 0, 0));
-
         tab_Main.setName("Intro"); // NOI18N
 
-        pnl_Intro.setBackground(new java.awt.Color(255, 0, 0));
         pnl_Intro.setEnabled(false);
         pnl_Intro.setPreferredSize(new java.awt.Dimension(905, 570));
 
@@ -118,8 +117,9 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
         txa_Intro.setFont(new java.awt.Font("Times New Roman", 0, 25)); // NOI18N
         txa_Intro.setLineWrap(true);
         txa_Intro.setRows(5);
-        txa_Intro.setText("\tWelcome to the FFMPEG GUI.\n\nIn Order to use the GUI first you must select a perspective from the menu above. Only one perspective may be selected a time. \n\nFrom there enter the required data and select \"Run\". Results will be displayed differently based on what commands you are executing. \n\nAs more commands are supported new perspectives will be added to the menu. You may also return here at any time by clicking the home button.\n\nEnjoy.");
+        txa_Intro.setText("\t\tWelcome to the FFMPEG GUI.\n\nIn Order to use the GUI first you must select a perspective from the menu above. Only one perspective may be selected a time. \n\nFrom there enter the required data and select \"Run\". Results will be displayed differently based on what commands you are executing. \n\nAs more commands are supported new perspectives will be added to the menu. You may also return here at any time by clicking the home button.\n\nEnjoy.");
         txa_Intro.setWrapStyleWord(true);
+        txa_Intro.setMargin(new java.awt.Insets(20, 20, 20, 20));
         JSP_Intro.setViewportView(txa_Intro);
 
         javax.swing.GroupLayout pnl_IntroLayout = new javax.swing.GroupLayout(pnl_Intro);
@@ -141,24 +141,27 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
 
         tab_Main.addTab("Introduction", pnl_Intro);
 
-        pnl_ChangeFormat.setBackground(new java.awt.Color(255, 0, 0));
         pnl_ChangeFormat.setEnabled(false);
         pnl_ChangeFormat.setPreferredSize(new java.awt.Dimension(905, 570));
 
         lbl_CF_title.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        lbl_CF_title.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_CF_title.setForeground(new java.awt.Color(80, 80, 80));
         lbl_CF_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_CF_title.setText("Change Format");
         lbl_CF_title.setAlignmentX(0.5F);
 
         txt_CF_newTitle.setText("Enter new file title here");
         txt_CF_newTitle.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_CF_newTitleFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_CF_newTitleFocusLost(evt);
             }
         });
 
         btn_CF_openVidDir.setText("open video directory");
+        btn_CF_openVidDir.setPreferredSize(new java.awt.Dimension(120, 23));
         btn_CF_openVidDir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CF_openVidDirActionPerformed(evt);
@@ -167,8 +170,16 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
 
         txt_CF_originDir.setText("directory where file can be found:");
         txt_CF_originDir.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_CF_originDirFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_CF_originDirFocusLost(evt);
+            }
+        });
+        txt_CF_originDir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_CF_originDirActionPerformed(evt);
             }
         });
 
@@ -201,6 +212,9 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
 
         txt_CF_oldTitle.setText("Enter the original File name");
         txt_CF_oldTitle.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_CF_oldTitleFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_CF_oldTitleFocusLost(evt);
             }
@@ -216,25 +230,22 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
                     .addComponent(lbl_CF_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnl_ChangeFormatLayout.createSequentialGroup()
                         .addGroup(pnl_ChangeFormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnl_ChangeFormatLayout.createSequentialGroup()
-                                .addGroup(pnl_ChangeFormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnl_ChangeFormatLayout.createSequentialGroup()
-                                        .addComponent(txt_CF_newTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txt_CF_oldTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
-                                    .addComponent(txt_CF_originDir)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_ChangeFormatLayout.createSequentialGroup()
-                                        .addComponent(lbl_CF_output)
-                                        .addGap(166, 166, 166))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_ChangeFormatLayout.createSequentialGroup()
-                                        .addComponent(btn_CF_run, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_CF_openVidDir, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(24, 24, 24))
-                            .addGroup(pnl_ChangeFormatLayout.createSequentialGroup()
-                                .addComponent(jScrollPane3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_ChangeFormatLayout.createSequentialGroup()
+                                .addComponent(btn_CF_run, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_CF_openVidDir, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_CF_originDir, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_ChangeFormatLayout.createSequentialGroup()
+                                .addComponent(txt_CF_newTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_CF_oldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnl_ChangeFormatLayout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addComponent(lbl_CF_output)
+                        .addGap(697, 697, 697)))
                 .addContainerGap())
         );
         pnl_ChangeFormatLayout.setVerticalGroup(
@@ -253,7 +264,7 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
                         .addGroup(pnl_ChangeFormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btn_CF_run, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                             .addComponent(btn_CF_openVidDir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                         .addComponent(lbl_CF_output)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -263,19 +274,21 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
 
         tab_Main.addTab("Change Format", pnl_ChangeFormat);
 
-        pnl_rotateVid.setBackground(new java.awt.Color(255, 0, 0));
         pnl_rotateVid.setEnabled(false);
         pnl_rotateVid.setPreferredSize(new java.awt.Dimension(905, 570));
         pnl_rotateVid.setRequestFocusEnabled(false);
 
         lbl_RV_title.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        lbl_RV_title.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_RV_title.setForeground(new java.awt.Color(80, 80, 80));
         lbl_RV_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_RV_title.setText("Rotate Video");
         lbl_RV_title.setAlignmentX(0.5F);
 
         txt_RV_newTitle.setText("Enter new file title here");
         txt_RV_newTitle.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_RV_newTitleFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_RV_newTitleFocusLost(evt);
             }
@@ -283,6 +296,9 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
 
         txt_RV_oldTitle.setText("Enter the original File name");
         txt_RV_oldTitle.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_RV_oldTitleFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_RV_oldTitleFocusLost(evt);
             }
@@ -290,6 +306,9 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
 
         txt_RV_originDir.setText("directory where file can be found:");
         txt_RV_originDir.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_RV_originDirFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_RV_originDirFocusLost(evt);
             }
@@ -316,6 +335,7 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
         txa_RV_instructions.setRows(5);
         txa_RV_instructions.setText("This will rotate the originally supplied video file either 90° clockwise, 90° counter-clockwise, or a full 180°. ");
         txa_RV_instructions.setWrapStyleWord(true);
+        txa_RV_instructions.setPreferredSize(new java.awt.Dimension(224, 137));
         jScrollPane2.setViewportView(txa_RV_instructions);
 
         txa_RV_output.setEditable(false);
@@ -353,67 +373,66 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
                     .addComponent(lbl_RV_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnl_rotateVidLayout.createSequentialGroup()
                         .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txt_RV_originDir, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_rotateVidLayout.createSequentialGroup()
-                                    .addComponent(txt_RV_newTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txt_RV_oldTitle))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_rotateVidLayout.createSequentialGroup()
-                                    .addComponent(btn_RV_Flip180, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lbl_RV_output)
-                                        .addGroup(pnl_rotateVidLayout.createSequentialGroup()
-                                            .addComponent(btn_RV_flip90CC, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(btn_RV_flip90C, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(btn_RV_openVidDir, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 453, Short.MAX_VALUE)))
+                            .addGroup(pnl_rotateVidLayout.createSequentialGroup()
+                                .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_rotateVidLayout.createSequentialGroup()
+                                        .addComponent(txt_RV_newTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                        .addComponent(txt_RV_oldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txt_RV_originDir, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btn_RV_openVidDir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_rotateVidLayout.createSequentialGroup()
+                                        .addComponent(btn_RV_Flip180, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btn_RV_flip90CC, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btn_RV_flip90C, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(26, 26, 26))
+                            .addGroup(pnl_rotateVidLayout.createSequentialGroup()
+                                .addGap(171, 171, 171)
+                                .addComponent(lbl_RV_output)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnl_rotateVidLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(30, 30, 30)))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(499, Short.MAX_VALUE)))
         );
         pnl_rotateVidLayout.setVerticalGroup(
             pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_rotateVidLayout.createSequentialGroup()
                 .addComponent(lbl_RV_title, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_RV_newTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_RV_oldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(txt_RV_originDir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btn_RV_openVidDir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_RV_flip90C, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_RV_Flip180, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_RV_flip90CC, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(87, 87, 87)
-                .addComponent(lbl_RV_output)
-                .addGap(160, 160, 160))
+                .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_rotateVidLayout.createSequentialGroup()
+                        .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_RV_newTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_RV_oldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_RV_originDir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_RV_openVidDir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_RV_flip90CC, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_RV_flip90C, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_RV_Flip180, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(55, 55, 55)
+                        .addComponent(lbl_RV_output)
+                        .addGap(0, 200, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
             .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnl_rotateVidLayout.createSequentialGroup()
-                    .addGroup(pnl_rotateVidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(pnl_rotateVidLayout.createSequentialGroup()
-                            .addGap(417, 417, 417)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_rotateVidLayout.createSequentialGroup()
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_rotateVidLayout.createSequentialGroup()
+                    .addContainerGap(365, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
 
         tab_Main.addTab("Rotate Video", pnl_rotateVid);
 
-        pnl_ChangeSpeed.setBackground(new java.awt.Color(255, 0, 0));
         pnl_ChangeSpeed.setEnabled(false);
         pnl_ChangeSpeed.setMinimumSize(new java.awt.Dimension(900, 540));
         pnl_ChangeSpeed.setPreferredSize(new java.awt.Dimension(905, 570));
@@ -423,6 +442,7 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
         txa_CS_output.setLineWrap(true);
         txa_CS_output.setRows(5);
         txa_CS_output.setWrapStyleWord(true);
+        txa_CS_output.setPreferredSize(new java.awt.Dimension(166, 94));
         jScrollPane5.setViewportView(txa_CS_output);
 
         lbl_CS_output.setBackground(new java.awt.Color(255, 255, 255));
@@ -436,6 +456,7 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
         ta_CS_instructions.setRows(5);
         ta_CS_instructions.setText("In order to change the speed of a video the file must be entered the same as before. Enter the new file title, the original file you will be manipulating, and the directory it can be found.\n\nOpen video directory is useful for ensuring your new video was created successfully. It opens a window to the directory the orignal file is located.\n\nChoosing video speed is done with the radial buttons. Only one may be selected at a time. Choosing 0.25 will slow down the video to 25% the initial speed. This means the video will be four times longer than the original as well. \n\nSelecting 2.0 will make the video twice the speed it was originally. That will make the video half as long as the original file.\n\nPressing the Run button will launch the process, creating a new video if all the information above is properly entered.");
         ta_CS_instructions.setWrapStyleWord(true);
+        ta_CS_instructions.setPreferredSize(new java.awt.Dimension(224, 137));
         jScrollPane6.setViewportView(ta_CS_instructions);
 
         btn_CS_openVidDir.setText("open video directory");
@@ -474,7 +495,7 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
         });
 
         lbl_CS_title.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        lbl_CS_title.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_CS_title.setForeground(new java.awt.Color(80, 80, 80));
         lbl_CS_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_CS_title.setText("Change Speed");
         lbl_CS_title.setAlignmentX(0.5F);
@@ -539,19 +560,13 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
                 .addGroup(pnl_ChangeSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(lbl_CS_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
                         .addGroup(pnl_ChangeSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5)
-                            .addComponent(txt_CS_originDir)
                             .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
-                                .addComponent(txt_CS_newTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_CS_oldTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
-                            .addComponent(btn_CS_run, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_CS_openVidDir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
-                                .addGroup(pnl_ChangeSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lbl_CS_videoSpeed)
+                                .addGroup(pnl_ChangeSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
+                                        .addGap(64, 64, 64)
                                         .addComponent(rad_CS_speed25)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(rad_CS_speed5)
@@ -560,28 +575,38 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(rad_CS_speed125)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(rad_CS_speed150)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rad_CS_speed175)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rad_CS_speed200))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_ChangeSpeedLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbl_CS_output)
-                        .addGap(156, 156, 156)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
-            .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbl_CS_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(rad_CS_speed150)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(rad_CS_speed175)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(rad_CS_speed200))
+                                    .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
+                                        .addGap(142, 142, 142)
+                                        .addComponent(lbl_CS_videoSpeed))
+                                    .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
+                                        .addGap(188, 188, 188)
+                                        .addComponent(lbl_CS_output)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(pnl_ChangeSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_ChangeSpeedLayout.createSequentialGroup()
+                                        .addComponent(txt_CS_newTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                        .addComponent(txt_CS_oldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txt_CS_originDir)
+                                    .addComponent(btn_CS_openVidDir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_CS_run, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(26, 26, 26)))
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         pnl_ChangeSpeedLayout.setVerticalGroup(
             pnl_ChangeSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_ChangeSpeedLayout.createSequentialGroup()
                 .addComponent(lbl_CS_title, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnl_ChangeSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_ChangeSpeedLayout.createSequentialGroup()
                         .addGroup(pnl_ChangeSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -591,7 +616,7 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
                         .addComponent(txt_CS_originDir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_CS_openVidDir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
+                        .addGap(18, 18, 18)
                         .addComponent(lbl_CS_videoSpeed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnl_ChangeSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -604,12 +629,12 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
                             .addComponent(rad_CS_speed200))
                         .addGap(18, 18, 18)
                         .addComponent(btn_CS_run, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(lbl_CS_output)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane6))
-                .addGap(80, 80, 80))
+                .addContainerGap())
         );
 
         tab_Main.addTab("Change Speed", pnl_ChangeSpeed);
@@ -622,7 +647,9 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
         );
         main_JPanelLayout.setVerticalGroup(
             main_JPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tab_Main, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(main_JPanelLayout.createSequentialGroup()
+                .addComponent(tab_Main, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         tab_Main.getAccessibleContext().setAccessibleName("Intro");
@@ -654,9 +681,9 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
 
     /**
      * Runs FFMPEG command to create new file. Can be different format or just
-     * different name. The general form of this method was taken from some program I found 
-     * on source forge. I modified it slightly because it was close enough.
-     * https://sourceforge.net/projects/krain/?source=directory
+     * different name. The general form of this method was taken from some
+     * program I found on source forge. I modified it slightly because it was
+     * close enough. https://sourceforge.net/projects/krain/?source=directory
      *
      * @param evt the submit button was pressed.
      */
@@ -665,7 +692,7 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
         fileY = txt_CF_newTitle.getText();
 
         if (!checkTitleExists(fileY, location)) {
-            commands = "cmd.exe /c chdir " + location + " && " + FFMPEGDIR + " -i " + fileX + " " + fileY +  " && " + FFMPEGDIR + " ffmpeg -list_devices true -f dshow -i dummy "  + FFMPEGDIR + " ffmpeg -list_devices true -f dshow -i dummy ";
+            commands = "cmd.exe /c chdir " + location + " && " + FFMPEGDIR + " -i \"" + fileX + "\" \"" + fileY + "\""; // not needed:  + " && " + FFMPEGDIR + " ffmpeg -list_devices true -f dshow -i dummy " + FFMPEGDIR + " ffmpeg -list_devices true -f dshow -i dummy ";
             executeFFMPEG(commands, txa_CF_output);
         } else {
             txa_CF_output.setText(txa_CF_output.getText() + "\n The new file already exists. Please enter a different new title.");
@@ -686,8 +713,8 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
             commands = ("cmd.exe /c chdir " + location + " && " + FFMPEGDIR + " -i " + fileX + " -vf transpose=1,transpose=1 " + fileY);
             executeFFMPEG(commands, txa_RV_output);
             int x = 2;
-            while(x < 100000){
-                x = (((((x + x) * x) - (-2) -(4))));
+            while (x < 100000) {
+                x = (((((x + x) * x) - (-2) - (4))));
                 System.out.println(x);
             }
         } else {
@@ -715,13 +742,11 @@ public class FFMPEG_GUI_TABBED_PANE extends javax.swing.JFrame {
         fileX = txt_RV_oldTitle.getText();
         fileY = txt_RV_newTitle.getText();
 
-                    if (!checkTitleExists(fileY, location)) 
-                                                                                                                                                                    {
-commands = ("cmd.exe /c chdir " + location + " && " + FFMPEGDIR + " -i " + fileX + " -vf transpose=0 " + fileY);
-executeFFMPEG(commands, txa_RV_output);
-                                                                                                                                                                                    } else         
-                    {
-                                            txa_RV_output.setText(txa_RV_output.getText() + "\n The new file already exists. Please enter a different new title.");
+        if (!checkTitleExists(fileY, location)) {
+            commands = ("cmd.exe /c chdir " + location + " && " + FFMPEGDIR + " -i " + fileX + " -vf transpose=0 " + fileY);
+            executeFFMPEG(commands, txa_RV_output);
+        } else {
+            txa_RV_output.setText(txa_RV_output.getText() + "\n The new file already exists. Please enter a different new title.");
         }
     }//GEN-LAST:event_btn_RV_flip90CActionPerformed
 
@@ -735,14 +760,12 @@ executeFFMPEG(commands, txa_RV_output);
         fileX = txt_RV_oldTitle.getText();
         fileY = txt_RV_newTitle.getText();
 
-if (!checkTitleExists(fileY, location)) 
-{
-                                commands = ("cmd.exe /c chdir " + location + " && " + FFMPEGDIR + " -i " + fileX + " -vf transpose=1 " + fileY);
-                                executeFFMPEG(commands, txa_RV_output);
-} else 
-{
-                                txa_RV_output.setText(txa_RV_output.getText() + "\n The new file already exists. Please enter a different new title.");
-}
+        if (!checkTitleExists(fileY, location)) {
+            commands = ("cmd.exe /c chdir " + location + " && " + FFMPEGDIR + " -i " + fileX + " -vf transpose=1 " + fileY);
+            executeFFMPEG(commands, txa_RV_output);
+        } else {
+            txa_RV_output.setText(txa_RV_output.getText() + "\n The new file already exists. Please enter a different new title.");
+        }
     }//GEN-LAST:event_btn_RV_flip90CCActionPerformed
 
     /**
@@ -752,15 +775,14 @@ if (!checkTitleExists(fileY, location))
      */
     private void btn_CS_openVidDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CS_openVidDirActionPerformed
         location = txt_CS_originDir.getText();
-        for(int i = 0; i < 5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             openDirectory(txa_CS_output);
         }
     }//GEN-LAST:event_btn_CS_openVidDirActionPerformed
 
     /**
      * runs the change speed commands to manipulate video speed based on
-     * parameters provided by user. I took some code from here: 
+     * parameters provided by user. I took some code from here:
      * https://sourceforge.net/projects/gmof/files/simfiles/DemoSimFiles1/
      * things have been renamed and re-organized.
      *
@@ -774,37 +796,37 @@ if (!checkTitleExists(fileY, location))
         if (!checkTitleExists(fileY, location)) {
             String vidSpeed = "0";
             switch (speed) {
-                            case "0.25":
+                case "0.25":
                     vidSpeed = "4.0";
-                     break;
-                                case "0.5":
-                     vidSpeed = "2.0";
                     break;
-                            case "0.75":
+                case "0.5":
+                    vidSpeed = "2.0";
+                    break;
+                case "0.75":
                     vidSpeed = "1.333";
-                                    break;
-                             case "1.25":
-                     vidSpeed = "0.2";
-            {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FFMPEG_GUI_TABBED_PANE.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                        break;
-                           case "1.50":
+                    break;
+                case "1.25":
+                    vidSpeed = "0.2";
+                     {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(FFMPEG_GUI_TABBED_PANE.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                case "1.50":
                     vidSpeed = "0.3333";
-                                            break;
-                                  case "1.75":
+                    break;
+                case "1.75":
                     vidSpeed = "0.43";
-                                        break;
-                               case "2.0":
+                    break;
+                case "2.0":
                     vidSpeed = "0.5";
-                       break;
+                    break;
                 default:
                     txa_CS_output.setText(txa_CS_output.getText() + "You did not select a speed value.");
-                       break;
+                    break;
             }
             if (!vidSpeed.equals("0")) {
                 commands = ("cmd.exe /c chdir " + location + " && " + FFMPEGDIR + " -i " + fileX + " -r 60 -vf \"setpts=" + vidSpeed + "*PTS\" -filter:a \"atempo=" + speed + "\" " + fileY);
@@ -968,53 +990,104 @@ if (!checkTitleExists(fileY, location))
         txa_CS_output.setText(txa_CS_output.getText() + " \n Your origin directory is: " + location);
     }//GEN-LAST:event_txt_CS_originDirFocusLost
 
+    private void txt_CF_originDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CF_originDirActionPerformed
+
+    }//GEN-LAST:event_txt_CF_originDirActionPerformed
+
+    private void txt_CF_newTitleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_CF_newTitleFocusGained
+        txt_CF_newTitle.selectAll();
+    }//GEN-LAST:event_txt_CF_newTitleFocusGained
+
+    private void txt_CF_oldTitleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_CF_oldTitleFocusGained
+        txt_CF_oldTitle.selectAll();
+    }//GEN-LAST:event_txt_CF_oldTitleFocusGained
+
+    private void txt_CF_originDirFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_CF_originDirFocusGained
+        txt_CF_originDir.selectAll();
+    }//GEN-LAST:event_txt_CF_originDirFocusGained
+
+    private void txt_RV_newTitleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_RV_newTitleFocusGained
+        txt_RV_newTitle.selectAll();
+    }//GEN-LAST:event_txt_RV_newTitleFocusGained
+
+    private void txt_RV_oldTitleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_RV_oldTitleFocusGained
+        txt_RV_oldTitle.selectAll();
+    }//GEN-LAST:event_txt_RV_oldTitleFocusGained
+
+    private void txt_RV_originDirFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_RV_originDirFocusGained
+        txt_RV_originDir.selectAll();
+    }//GEN-LAST:event_txt_RV_originDirFocusGained
+
     /**
-     * Executes any supplied FFMPEG command. Most of this code came from this project:
-     * https://sourceforge.net/projects/rita/?source=directory. It may not be super 
-     * efficient. I'm not super sure what it does. but it totally works here.
+     * Executes any supplied FFMPEG command. Most of this code came from this
+     * project: https://sourceforge.net/projects/rita/?source=directory. It may
+     * not be super efficient. I'm not super sure what it does. but it totally
+     * works here.
      *
      * @param commands the string var with commands inside.
      * @param outputBox the Text Area that receives output messages.
      */
-    private void executeFFMPEG(String commands, JTextArea outputBox)
-                                           {
-                                                            if (fileY != null && fileX != null) 
-                {
-        try
-{
-                            int i = 0;
-            int counter = 0;
-while(i < 10) {System.out.println("THREAD SLEEP.");Thread.sleep(1000);i++;counter++;}
-                                                            Process p = Runtime.getRuntime().exec(commands);
-LogStreamReader lsrIN = new LogStreamReader(p.getInputStream());
-Thread threadIn = new Thread(lsrIN, "LogStreamReader");
-                                                    threadIn.start();
-LogStreamReader lsrOUT = new LogStreamReader(p.getErrorStream());
-                                                            Thread threadOut = new Thread(lsrOUT, "LogStreamReader");
-threadOut.start();
-            outputBox.setText(outputBox.getText() + " \n New file created. Verify by opening directory. ");
-                            }
-catch (IOException | InterruptedException ex)
-                                                            {
-Logger.getLogger(FFMPEG_GUI_TABBED_PANE.class.getName()).log(Level.SEVERE, null, ex);
-}
-                                            }
-                                                            else 
-                            {
-outputBox.setText(outputBox.getText() + " \n Either your new or old file has not been entered. ");
+    private void executeFFMPEG(String commands, JTextArea outputBox) {
+        if (fileY != null && fileX != null) {
+            try {
+                // unneeded slowdown code, commenting out:
+//                int i = 0;
+//                int counter = 0;
+//                while (i < 10) {
+//                    System.out.println("THREAD SLEEP.");
+//                    Thread.sleep(1000);
+//                    i++;
+//                    counter++;
+//                }
+                Process p = Runtime.getRuntime().exec(commands);
+                LogStreamReader lsrIN = new LogStreamReader(p.getInputStream());
+                Thread threadIn = new Thread(lsrIN, "LogStreamReader");
+                threadIn.start();
+                LogStreamReader lsrOUT = new LogStreamReader(p.getErrorStream());
+                Thread threadOut = new Thread(lsrOUT, "LogStreamReader");
+                threadOut.start();
+                threadOut.join(); // wait for completion before continuing
+                
+                // verify command was successful
+                if (!checkTitleExists(fileY, location)) {
+                    message = " Error executing FFMPEG.";
+                }else {
+                    message = " New file created. Verify by opening directory.";
                 }
-                                                              }
+                outputBox.setText(outputBox.getText() + "\n" + message);    
+            } catch (IOException | InterruptedException ex) { 
+                Logger.getLogger(FFMPEG_GUI_TABBED_PANE.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            outputBox.setText(outputBox.getText() + " \n Either your new or old file has not been entered. ");
+        }
+    }
 
     /**
      * Uses an external explorer process to open the given directory outside of
-     * Java in its own window. I learned how to open a window using the external process
-     * by looking at this project. https://sourceforge.net/projects/cryptonator/?source=navbar
-     * Luckily they were doing a very similar thing in this project.
+     * Java in its own window. I learned how to open a window using the external
+     * process by looking at this project.
+     * https://sourceforge.net/projects/cryptonator/?source=navbar Luckily they
+     * were doing a very similar thing in this project.
      *
      * @param outBox the Text Area that displays output messages.
      */
     private void openDirectory(JTextArea outBox) {
-        if (location != null) {File tempDir = new File(location);if (tempDir.exists() && tempDir.isDirectory()) {outBox.setText(outBox.getText() + " \n Opening Directory... ");try {Process exec = Runtime.getRuntime().exec("explorer " + location);} catch (IOException ex) {Logger.getLogger(FFMPEG_GUI_TABBED_PANE.class.getName()).log(Level.SEVERE, null, ex);}} else {outBox.setText(outBox.getText() + " \n The Directory you entered does not exist. ");}} else {outBox.setText(outBox.getText() + " \n You haven't supplied a directory yet. Please enter one. ");}
+        if (location != null) {
+            File tempDir = new File(location);
+            if (tempDir.exists() && tempDir.isDirectory()) {
+                outBox.setText(outBox.getText() + " \n Opening Directory... ");
+                try {
+                    Process exec = Runtime.getRuntime().exec("explorer " + location);
+                } catch (IOException ex) {
+                    Logger.getLogger(FFMPEG_GUI_TABBED_PANE.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                outBox.setText(outBox.getText() + " \n The Directory you entered does not exist. ");
+            }
+        } else {
+            outBox.setText(outBox.getText() + " \n You haven't supplied a directory yet. Please enter one. ");
+        }
     }
 
     /**
@@ -1024,59 +1097,48 @@ outputBox.setText(outputBox.getText() + " \n Either your new or old file has not
      * @param dir the directory we're checking for a specified file.
      * @return boolean. True if file exists and is not directory.
      */
-    private boolean checkTitleExists(String fileTitle, String dir)
-{
-                                            String fileTitleName = fileTitle;
-        
-        
-                                    String dir_loc = dir;
-        
-        
-                            String fileStuff = dir + "\\" + fileTitle;
-        
-        
-                    File tmpFile = new File(fileStuff);
-        
-        
-            return (tmpFile.exists() && !tmpFile.isDirectory());
-    
+    private boolean checkTitleExists(String fileTitle, String dir) {
+        String fileTitleName = fileTitle;
 
+        String dir_loc = dir;
 
-                                                                                }
+        String fileStuff = dir + "\\" + fileTitle;
+
+        File tmpFile = new File(fileStuff);
+
+        return (tmpFile.exists() && !tmpFile.isDirectory());
+
+    }
 
     /**
-     * Читатель потоков. Сделано для чтения входных потоков для потоков. Информация в файл .txt
+     * Читатель потоков. Сделано для чтения входных потоков для потоков.
+     * Информация в файл .txt
      */
-    private class LogStreamReader implements Runnable 
-                {
-                    private final BufferedReader br;
-                    public LogStreamReader(InputStream is) 
-{
-                    this.br = new BufferedReader(new InputStreamReader(is));
-                }
-        @Override
-    public void run() 
-            {
-                try 
-    {
-                try (BufferedWriter bf = new BufferedWriter(new FileWriter("tmpOutput.txt"))) 
-                            {
-                String line = br.readLine();
-                while (line != null) 
-        {
-                        System.out.println(line);
-                bf.write(line + "\n");
-                line = br.readLine();
-}
-            }
-                br.close();
+    private class LogStreamReader implements Runnable {
+
+        private final BufferedReader br;
+
+        public LogStreamReader(InputStream is) {
+            this.br = new BufferedReader(new InputStreamReader(is));
         }
-            catch (IOException e) 
-                {
-                System.out.println("Error");
-    }
-                            }
+
+        @Override
+        public void run() {
+            try {
+                try ( BufferedWriter bf = new BufferedWriter(new FileWriter("tmpOutput.txt"))) {
+                    String line = br.readLine();
+                    while (line != null) {
+                        System.out.println(line);
+                        bf.write(line + "\n");
+                        line = br.readLine();
+                    }
                 }
+                br.close();
+            } catch (IOException e) {
+                System.out.println("Error");
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments
